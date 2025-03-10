@@ -6,7 +6,7 @@ services:
     container_name: php_app
     restart: always
     volumes:
-      - C:/twa2025:/var/www/html
+      - .:/var/www/html
     ports:
       - "8080:80"
     environment:
@@ -19,8 +19,8 @@ services:
     container_name: node_service
     working_dir: /app
     volumes:
-      - C:/twa2025:/app
-      - C:/twa2025/node_modules:/app/node_modules
+      - .:/app
+      - ./node_modules:/app/node_modules
     command: tail -f /dev/null
     networks:
       - app_network
