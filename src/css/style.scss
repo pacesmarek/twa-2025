@@ -1,0 +1,85 @@
+/* General Reset */
+body {
+	font-family: 'Arial', sans-serif;
+	background-color: #f4f4f9;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+/* Heading */
+h1 {
+	color: #333;
+	margin-bottom: 20px;
+}
+
+/* Form Styles */
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-bottom: 20px;
+}
+
+input {
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 16px;
+}
+
+button {
+	padding: 10px;
+	background-color: #007BFF;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
+	transition: background 0.3s;
+}
+
+button:hover {
+	background-color: #0056b3;
+}
+
+/* Ticket List */
+ul {
+	list-style: none;
+	padding: 0;
+}
+
+li {
+	background: #fff;
+	padding: 15px;
+	border-radius: 5px;
+	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+	margin-bottom: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+li strong {
+	color: #333;
+}
+
+li p {
+	margin: 5px 0;
+	color: #666;
+	font-size: 14px;
+}
+
+/* Delete Button */
+li button {
+	background-color: #dc3545;
+	font-size: 14px;
+	padding: 5px 10px;
+}
+
+li button:hover {
+	background-color: #a71d2a;
+}

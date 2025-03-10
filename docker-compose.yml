@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  app:
+    image: php:8.2-apache
+    container_name: php_app
+    restart: always
+    volumes:
+      - /Users/marek/Work/Sites/twa-2025:/var/www/html  # Fixed macOS path
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
+    networks:
+      - app_network
+    command: bash -c "docker-php-ext-install mysqli pdo pdo_mysql && apache2-foreground"
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: twa2025
+      MYSQL_USER: twa2025
+      MYSQL_PASSWORD: twa2025
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - app_network
+
+  node:
+    image: node:18
+    container_name: node_service
+    working_dir: /app
+    volumes:
+      - /Users/marek/Work/Sites/twa-2025:/app  # Fixed macOS path
+      - /app/node_modules  # Ensure node_modules is created inside Docker
+    command: tail -f /dev/null
+    networks:
+      - app_network
+    ports:
+      - "5173:5173"  # Expose Vite dev server port for HMR & CSS injection
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - "8081:8080"
+    networks:
+      - app_network
+
+volumes:
+  db_data:
+
+networks:
+  app_network:
+    driver: bridge
