@@ -9,5 +9,5 @@
 - `node_service` → The name of your Node.js container (as defined in docker-compose.yml).
 - `bash` → Opens a Bash shell inside the container.
 
-### b) `docker exec -it node_service npm run dev`
+### a + b) `docker exec -it node_service npm run dev`
 - Runs with `npm run dev`
