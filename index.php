@@ -1,5 +1,21 @@
 <?php
-		session_start();
+	session_start();
+
+	$dataFile = __DIR__ . '/src/tickets.json';
+
+	$tickets = file_exists($dataFile) ? json_decode(file_get_contents($dataFile), true) : [];
+
+	if (!is_array($tickets)) {
+		$tickets = [];
+	}
+
+	// TODO (Add, Delete)
+
+	// file_put_contents($dataFile, json_encode($tickets, JSON_PRETTY_PRINT));
+
+	// header('Content-Type: application/json');
+	// echo json_encode($tickets);
+	// exit;
 ?>
 
 <!DOCTYPE html>
@@ -13,11 +29,27 @@
 </head>
 
 <body>
-	<?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] ): ?>
-	<p>Welcome, Admin! <a href="login.php?logout=true">Logout</a></p>
-	<?php else: ?>
-	<a href="login.php">Login</a> to manage tickets.
-	<?php endif; ?>
+	<div class="container" x-data="tiketApp">
+		<?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] ): ?>
+		<p>Welcome, Admin! <a href="login.php?logout=true">Logout</a></p>
+		<?php else: ?>
+		<a href="login.php">Login</a> to manage tickets.
+		<?php endif; ?>
+
+		<ul>
+			<template x-for="ticket in tickets" :key="ticket.id">
+				<li>
+					<div>
+						<strong x-text="ticket.title"></strong>
+						<p x-text="ticket.description"></p>
+					</div>
+				</li>
+			</template>
+		</ul>
+
+	</div>
+
+	<script type="module" src="dist/main.js"></script>
 </body>
 
 </html>
