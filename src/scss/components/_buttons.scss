@@ -1,0 +1,13 @@
+@use "../abstract/variables" as *;
+
+.btn {
+    background-color: $secondary-color;
+    border: none;
+    color: $white;
+    padding: 1rem 1.5rem;
+    border-radius: $rounded;
+}
+
+.btn--primary {
+    background-color: $primary-color;
+}

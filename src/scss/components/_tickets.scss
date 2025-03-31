@@ -1,0 +1,16 @@
+@use "../abstract/variables" as *;
+
+.tickets {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    &__item {
+        border: 0.1rem solid $secondary-color;
+        padding: 1rem;
+        border-radius: $rounded;
+        display: grid;
+        grid-template-columns: 1fr 10rem;
+        gap: 4rem;
+    }
+}

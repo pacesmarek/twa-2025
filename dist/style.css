@@ -4,4 +4,50 @@
   box-sizing: border-box;
 }
 
+ul {
+  list-style-type: none;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+}
+
+.tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.tickets__item {
+  border: 0.1rem solid #6c757d;
+  padding: 1rem;
+  border-radius: 0.6rem;
+  display: grid;
+  grid-template-columns: 1fr 10rem;
+  gap: 4rem;
+}
+
+.btn {
+  background-color: #6c757d;
+  border: none;
+  color: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 0.6rem;
+}
+
+.btn--primary {
+  background-color: #007bff;
+}
+
+.container {
+  max-width: 50rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 /*# sourceMappingURL=style.css.map */
