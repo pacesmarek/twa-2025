@@ -1,0 +1,60 @@
+@use "../abstract/variables" as *;
+@use "sass:color";
+
+.btn {
+	background-color: $light-color;
+	color: $dark-color;
+	border: none;
+	padding: 1rem 2rem; // 10px 20px
+	cursor: pointer;
+	border-radius: 0.5rem; // 5px
+
+	line-height: 1;
+	text-decoration: none;
+	font-size: inherit;
+	text-align: center;
+
+	&:hover {
+		background-color: color.adjust($light-color, $lightness: -15%);
+	}
+}
+
+// Variant: Primary
+.btn--primary {
+	background-color: $primary-color;
+	color: $white;
+
+	&:hover {
+		background-color: color.adjust($primary-color, $lightness: -15%);
+	}
+}
+
+// Variant: Danger
+.btn--danger {
+	background-color: $danger-color;
+	color: $white;
+
+	&:hover {
+		background-color: color.adjust($danger-color, $lightness: -15%);
+	}
+}
+
+// Variant: Dark
+.btn--dark {
+	background-color: $dark-color;
+	color: $white;
+
+	&:hover {
+		background-color: color.adjust($dark-color, $lightness: -15%);
+	}
+}
+
+// Variant: Light
+.btn--light {
+	background-color: $white;
+	color: $dark-color;
+
+	&:hover {
+		background-color: color.adjust($white, $lightness: -15%);
+	}
+}

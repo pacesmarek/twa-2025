@@ -1,0 +1,14 @@
+@use "../abstract/mixins" as mixins;
+
+.container {
+	@include mixins.container;
+}
+
+.row {
+	@include mixins.row;
+
+	> [class^="col"] {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+}

@@ -1,0 +1,16 @@
+@use "../abstract/variables" as *;
+@use "sass:color";
+
+.addTicketForm {
+	display: grid;
+	grid-template-columns: 1fr 15rem;
+	align-items: flex-end;
+	gap: 1rem;
+
+	padding: 1rem;
+	margin: 2rem 0;
+
+	border-radius: $rounded;
+	background-color: $light-color;
+	box-shadow: 0 0 0.5rem color.adjust($light-color, $lightness: -15%);
+}

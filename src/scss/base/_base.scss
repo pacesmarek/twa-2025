@@ -1,0 +1,13 @@
+
+@use "../abstract/variables" as *;
+
+html {
+	font-size: 62.5%; // 10px
+}
+
+body {
+	background-color: $dark-color;
+	color: $light-color;
+
+	padding-top: 6rem;
+}

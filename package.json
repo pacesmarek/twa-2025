@@ -2,10 +2,13 @@
   "name": "ticket-system",
   "version": "1.0.0",
   "scripts": {
-    "dev": "concurrently \"vite\" \"sass --watch --poll src/scss/style.scss dist/style.css\"",
-    "build": "vite build"
+    "dev": "concurrently \"vite\" \"npm run watch:scss\" \"npm run watch:js\"",
+    "watch:scss": "sass --watch src/scss/style.scss dist/style.css",
+    "watch:js": "vite build --watch",
+    "build": "vite build && sass src/scss/style.scss dist/style.css"
   },
   "devDependencies": {
+    "alpinejs": "^3.14.9",
     "concurrently": "^9.1.2",
     "sass": "^1.85.0",
     "vite": "^6.1.0"

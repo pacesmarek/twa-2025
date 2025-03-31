@@ -1,0 +1,32 @@
+@use "sass:color";
+
+// Colors
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$success-color: #28a745;
+$danger-color: #dc3545;
+$warning-color: #ffc107;
+$info-color: #17a2b8;
+$light-color: #dfdfdf;
+$dark-color: #343a40;
+$white: #fff;
+
+// Global
+$rounded: 0.5rem;
+
+// Card
+$card-background-color: $white;
+$card-border-color: $light-color;
+$card-border-radius: $rounded;
+
+// Tickets
+$ticket-background-color: $white;
+$ticket-border-radius: $rounded;
+$ticket-background-color-hover: color.adjust($light-color, $lightness: 5%);
+
+// Inputs
+$input-border-color: $light-color;
+
+// Transitions
+$transition-duration: 0.15s;
+$transition-ease: ease-in-out;

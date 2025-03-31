@@ -1,0 +1,111 @@
+@use "sass:math"; // Import the math module for percentage and division
+@use "sass:map"; // Import the map module for accessing map functions
+
+@mixin justify-content-center {
+	display: flex;
+	justify-content: center;
+}
+
+@mixin align-items-center {
+	display: flex;
+	align-items: center;
+}
+
+@mixin container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+@mixin row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+@mixin breakpoint($breakpoint, $size) {
+	$breakpoints: (
+			'sm': 576px,
+			'md': 768px,
+			'lg': 992px,
+			'xl': 1200px
+	);
+
+	@if map.has-key($breakpoints, $breakpoint) {
+			@media (min-width: map.get($breakpoints, $breakpoint)) {
+					width: math.percentage(math.div($size, 12));
+			}
+	} @else {
+			width: math.percentage(math.div($size, 12));
+	}
+}
+
+// Ensure `.col-*` is applied first globally
+@for $i from 1 through 12 {
+	.col-#{$i} {
+			width: math.percentage(math.div($i, 12)); // Default width without media queries
+	}
+}
+
+// Then apply media-query-based classes AFTER
+@each $bp, $size in ('sm': 576px, 'md': 768px, 'lg': 992px) {
+	@for $i from 1 through 12 {
+			@media (min-width: $size) {
+					.col-#{$bp}-#{$i} {
+							width: math.percentage(math.div($i, 12));
+					}
+			}
+	}
+}
+
+// Margin 1-5 array offset classes
+$spacer: 1rem;
+
+$spacers: (
+	0: 0,
+	1: $spacer * 0.25,
+	2: $spacer * 0.5,
+	3: $spacer,
+	4: $spacer * 1.5,
+	5: $spacer * 3
+);
+
+@each $key, $value in $spacers {
+	.m-#{$key} {
+		margin: $value;
+	}
+	.mt-#{$key} {
+		margin-top: $value;
+	}
+	.mb-#{$key} {
+		margin-bottom: $value;
+	}
+	.ml-#{$key} {
+		margin-left: $value;
+	}
+	.mr-#{$key} {
+		margin-right: $value;
+	}
+}
+
+// Padding 1-5 array offset classes
+@each $key, $value in $spacers {
+	.p-#{$key} {
+		padding: $value;
+	}
+	.pt-#{$key} {
+		padding-top: $value;
+	}
+	.pb-#{$key} {
+		padding-bottom: $value;
+	}
+	.pl-#{$key} {
+		padding-left: $value;
+	}
+	.pr-#{$key} {
+		padding-right: $value;
+	}
+}

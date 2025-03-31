@@ -1,0 +1,32 @@
+@use "../abstract/variables" as *;
+
+
+// Form
+form {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+// Label
+label {
+	display: block;
+	margin-bottom: 0.8rem;
+	color: $dark-color;
+}
+
+// Input, Textarea, Select
+input,
+textarea,
+select {
+	margin: 0;
+	padding: 1rem 1.25rem;
+	border: 0.1rem solid $input-border-color;
+	border-radius: $rounded;
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+}

@@ -1,0 +1,12 @@
+@use "../abstract/variables" as *;
+
+// Card
+.card {
+	background-color: $card-background-color;
+	border-radius: $card-border-radius;
+	padding: 1.5rem;
+
+	&--bordered {
+		border: 1px solid $card-border-color;
+	}
+}
