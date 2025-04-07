@@ -486,6 +486,24 @@ body {
   padding-right: 3rem;
 }
 
+.d-flex {
+  display: flex;
+}
+
+.align-items-center {
+  display: flex;
+  align-items: center;
+}
+
+.justify-content-center {
+  display: flex;
+  justify-content: center;
+}
+
+.w-100 {
+  width: 100%;
+}
+
 body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
@@ -542,7 +560,8 @@ body {
 
 .tickets__item {
   display: grid;
-  grid-template-columns: 1fr 10rem 10rem;
+  grid-template-columns: 1fr 20rem;
+  grid-template-areas: "info cta" "footer footer";
   gap: 1rem;
   align-items: flex-end;
   flex-direction: column;
@@ -557,11 +576,24 @@ body {
 .tickets__item:hover {
   background-color: rgb(235.75, 235.75, 235.75);
 }
+.tickets__cta {
+  grid-area: cta;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+.tickets__date {
+  display: flex;
+  justify-content: space-between;
+  grid-area: footer;
+  color: #343a40;
+  font-size: inherit;
+  font-style: italic;
+}
 
 .addTicketForm {
-  display: grid;
-  grid-template-columns: 1fr 15rem;
-  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
   padding: 1rem;
   margin: 2rem 0;
@@ -586,6 +618,21 @@ body {
   padding-right: 15px;
   padding-left: 15px;
 }
+@media (min-width: 546px) {
+  .container {
+    max-width: 546px;
+  }
+}
+@media (min-width: 738px) {
+  .container {
+    max-width: 738px;
+  }
+}
+@media (min-width: 962px) {
+  .container {
+    max-width: 962px;
+  }
+}
 
 .row {
   display: flex;
@@ -596,24 +643,6 @@ body {
 .row > [class^=col] {
   padding-left: 15px;
   padding-right: 15px;
-}
-
-.d-flex {
-  display: flex;
-}
-
-.align-items-center {
-  display: flex;
-  align-items: center;
-}
-
-.justify-content-center {
-  display: flex;
-  justify-content: center;
-}
-
-.w-100 {
-  width: 100%;
 }
 
 form {
@@ -641,10 +670,6 @@ select {
   display: block;
   width: 100%;
   box-sizing: border-box;
-}
-
-.home {
-  padding: 2rem;
 }
 
 /*# sourceMappingURL=style.css.map */

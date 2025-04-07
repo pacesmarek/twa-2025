@@ -2,9 +2,8 @@
 @use "sass:color";
 
 .addTicketForm {
-	display: grid;
-	grid-template-columns: 1fr 15rem;
-	align-items: flex-end;
+	display: flex;
+	flex-direction: column;
 	gap: 1rem;
 
 	padding: 1rem;

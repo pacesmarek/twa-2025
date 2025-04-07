@@ -2,6 +2,8 @@
 	// Spusťte novou relaci nebo obnovte existující relaci
 	session_start();
 
+	date_default_timezone_set('Europe/Prague'); // Set timezone to Prague
+
 	// Definujte cestu k souboru JSON s tikety
 	$dataFile = __DIR__ . '/src/tickets.json';
 
@@ -35,7 +37,9 @@
 			$newTicket = [
 				'id' => time(), // Použijte aktuální časové razítko jako jedinečné ID
 				'title' => $_POST['title'] ?? 'Bez názvu', // Získejte název z formuláře, výchozí hodnota je 'Bez názvu'
-				'description' => $_POST['description'] ?? '' // Získejte popis, výchozí hodnota je prázdná
+				'description' => $_POST['description'] ?? '', // Získejte popis, výchozí hodnota je prázdná
+				'created' => date('Y-m-d H:i:s'), // Add created date
+				'lastModified' => date('Y-m-d H:i:s') // Add lastModified date
 			];
 			$tickets[] = $newTicket;
 			// Přidejte nový tiket do pole
@@ -78,7 +82,7 @@
 <body>
 	<div class="container" x-data="ticketApp">
 		<div class="row justify-content-center">
-			<div class="col-md-4">
+			<div class="col-12 col-md-6">
 				<?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] ): ?>
 					<div class="d-flex align-items-center">
 						<img src="https://avatar.iran.liara.run/public/boy" alt="Admin" width="30" height="30" class="mr-3">
@@ -116,15 +120,21 @@
 				<ul class="tickets">
 					<template x-for="ticket in tickets" :key="ticket.id">
 						<li class="tickets__item">
-							<div>
+							<div class="tickets__info">
 								<div x-text="'#' + ticket.id"></div>
 								<strong x-text="ticket.title"></strong>
 								<p x-text="ticket.description"></p>
 							</div>
-							<?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
-								<a :href="'edit_ticket.php?id=' + ticket.id" class="btn btn--dark">Edit</a>
-								<button @click="removeTicket(ticket.id)" class="btn btn--danger">Delete</button>
-							<?php endif; ?>
+							<div class="tickets__cta">
+								<?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
+									<a :href="'edit_ticket.php?id=' + ticket.id" class="btn btn--dark">Edit</a>
+									<button @click="removeTicket(ticket.id)" class="btn btn--danger">Delete</button>
+								<?php endif; ?>
+							</div>
+							<div class="tickets__date">
+								<small class="tickets__date--created" x-text="'Created: ' + ticket.created"></small>
+								<small class="tickets__date--modified" x-text="'Last Modified: ' + ticket.lastModified"></small>
+							</div>
 						</li>
 					</template>
 				</ul>

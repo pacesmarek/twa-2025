@@ -38,7 +38,7 @@
 <body>
 	<div class="container">
 		<div class="row justify-content-center">
-			<div class="col-md-3">
+			<div class="col-12 col-md-6">
 				<h2>Login</h2>
 
 				<?php if (isset($error)): ?>

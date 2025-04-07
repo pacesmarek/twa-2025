@@ -2,6 +2,8 @@
 // Spuštění session kvůli ověření přihlášení uživatele
 session_start();
 
+date_default_timezone_set('Europe/Prague'); // Set timezone to Prague
+
 // Ověření, zda je uživatel přihlášen – jinak přístup zamítnut
 if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 	die("Unauthorized access.");
@@ -25,6 +27,9 @@ foreach ($tickets as $t) {
 	}
 }
 
+// var_dump($ticket); // Debugging: Zobrazí informace o ticketu
+// echo json_encode($ticket, JSON_PRETTY_PRINT);
+
 // Pokud ticket nenalezen, zobrazí chybovou hlášku a ukončí skript
 if (!$ticket) {
 	die("Ticket not found.");
@@ -37,10 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$newDescription = $_POST['description'] ?? '';
 
 	// Aktualizace příslušného ticketu v poli
-	foreach ($tickets as &$t) {
+	foreach ($tickets as &$t) { // Pomocí &$t pracuješ přímo s původními hodnotami v poli $tickets – ne s jejich kopií. To znamená, že když změníš $t uvnitř cyklu, změníš i daný prvek v poli $tickets.
 		if ((int)$t['id'] === $id) {
 			$t['title'] = $newTitle;
 			$t['description'] = $newDescription;
+			$t['lastModified'] = date('Y-m-d H:i:s'); // Update lastModified date
 			break;
 		}
 	}
@@ -50,7 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 	header("Location: index.php");
 	exit;
-
 }
 ?>
 
@@ -61,13 +66,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="dist/style.css">
-	<title>Homepage</title>
+	<title>Edit ticket</title>
 </head>
 
 <body>
 	<div class="container">
 		<div class="row justify-content-center">
-			<div class="col-md-4">
+			<div class="col-12 col-md-6">
 				<!-- HTML část: Formulář pro editaci ticketu -->
 				<h1>Edit Ticket #<?= htmlspecialchars($ticket['id']) ?></h1>
 

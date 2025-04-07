@@ -1,6 +1,7 @@
 // Import all partials
 @use 'base/reset';
 @use 'base/base';
+@use 'base/utils';
 
 @use 'abstract/variables';
 @use 'abstract/mixins';
@@ -13,12 +14,11 @@
 @use 'components/card';
 
 @use 'layout/grid';
-@use 'layout/utils';
 @use 'layout/form';
 // @use 'layout/header';
 // @use 'layout/footer';
 
-@use 'pages/home';
+// @use 'pages/home';
 
 // @use 'themes/theme';
 

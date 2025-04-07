@@ -12,18 +12,32 @@
 }
 
 @mixin container {
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: 15px;
-  padding-left: 15px;
+	width: 100%;
+	margin-right: auto;
+	margin-left: auto;
+	padding-right: 15px;
+	padding-left: 15px;
+	// add media queries for all breakpoints
+	$breakpoints-minus-30: (
+		'sm': calc(576px - 30px),
+		'md': calc(768px - 30px),
+		'lg': calc(992px - 30px),
+		'xl': calc(1200px - 30px)
+	);
+	@each $breakpoint, $size in $breakpoints-minus-30 {
+		@if $breakpoint != 'xl' {
+			@media (min-width: $size) {
+				max-width: map.get($breakpoints-minus-30, $breakpoint);
+			}
+		}
+	}
 }
 
 @mixin row {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
+	display: flex;
+	flex-wrap: wrap;
+	margin-right: -15px;
+	margin-left: -15px;
 }
 
 @mixin breakpoint($breakpoint, $size) {

@@ -1,20 +1,44 @@
 @use "../abstract/variables" as *;
 
-.tickets__item {
-	display: grid;
-	grid-template-columns: 1fr 10rem 10rem;
-	gap: 1rem;
-	align-items: flex-end;
-	flex-direction: column;
-	gap: 1rem;
-	padding: 1rem;
-	margin-bottom: 1.5rem;
-	border-radius: $ticket-border-radius;
-	background-color: $ticket-background-color;
-	color: $dark-color;
-	transition: background-color $transition-duration $transition-ease;
+.tickets {
+	&__item {
+		display: grid;
+		grid-template-columns: 1fr 20rem;
+		grid-template-areas:
+			"info cta"
+			"footer footer";
+		gap: 1rem;
+		align-items: flex-end;
+		flex-direction: column;
+		gap: 1rem;
+		padding: 1rem;
+		margin-bottom: 1.5rem;
+		border-radius: $ticket-border-radius;
+		background-color: $ticket-background-color;
+		color: $dark-color;
+		transition: background-color $transition-duration $transition-ease;
 
-	&:hover {
-		background-color: $ticket-background-color-hover;
+		&:hover {
+			background-color: $ticket-background-color-hover;
+		}
+	}
+
+	&__cta {
+		grid-area: cta;
+
+		display: flex;
+		justify-content: flex-end;
+		gap: 1rem;
+	}
+
+	&__date {
+		display: flex;
+		justify-content: space-between;
+
+		grid-area: footer;
+
+		color: $dark-color;
+		font-size: inherit;
+		font-style: italic;
 	}
 }
