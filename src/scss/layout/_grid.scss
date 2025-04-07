@@ -1,7 +1,78 @@
+@use '../abstract/mixins' as mixins;
+@use 'sass:math';
+
 .container {
-    max-width: 50rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 15px;
-    padding-right: 15px;
+    @include mixins.container;
+}
+
+.row {
+    @include mixins.row;
+}
+
+
+// Ensure `.col-*` is applied first globally
+@for $i from 1 through 12 {
+	.col-#{$i} {
+			width: math.percentage(math.div($i, 12)); // Default width without media queries
+	}
+}
+
+// Then apply media-query-based classes AFTER
+@each $bp, $size in ('sm': 576px, 'md': 768px, 'lg': 992px) {
+	@for $i from 1 through 12 {
+			@media (min-width: $size) {
+					.col-#{$bp}-#{$i} {
+							width: math.percentage(math.div($i, 12));
+					}
+			}
+	}
+}
+
+// Margin 1-5 array offset classes
+$spacer: 1rem;
+
+$spacers: (
+	0: 0,
+	1: $spacer * 0.25,
+	2: $spacer * 0.5,
+	3: $spacer,
+	4: $spacer * 1.5,
+	5: $spacer * 3
+);
+
+@each $key, $value in $spacers {
+	.m-#{$key} {
+		margin: $value;
+	}
+	.mt-#{$key} {
+		margin-top: $value;
+	}
+	.mb-#{$key} {
+		margin-bottom: $value;
+	}
+	.ml-#{$key} {
+		margin-left: $value;
+	}
+	.mr-#{$key} {
+		margin-right: $value;
+	}
+}
+
+// Padding 1-5 array offset classes
+@each $key, $value in $spacers {
+	.p-#{$key} {
+		padding: $value;
+	}
+	.pt-#{$key} {
+		padding-top: $value;
+	}
+	.pb-#{$key} {
+		padding-bottom: $value;
+	}
+	.pl-#{$key} {
+		padding-left: $value;
+	}
+	.pr-#{$key} {
+		padding-right: $value;
+	}
 }

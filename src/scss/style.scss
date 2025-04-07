@@ -1,11 +1,15 @@
-// Imports
+// Imports (7-1 pattern)
 
 @use 'base/reset';
 @use 'base/base';
+@use 'base/utils';
+@use 'base/typography';
 
 @use 'abstract/variables';
+@use 'abstract/mixins';
 
 @use 'components/tickets';
 @use 'components/buttons';
 
-@use 'layout/grid'
+@use 'layout/grid';
+@use 'layout/form';

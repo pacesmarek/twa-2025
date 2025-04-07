@@ -87,6 +87,7 @@
 						<strong x-text="ticket.title"></strong>
 						<p x-text="ticket.description"></p>
 					</div>
+					<a :href="'edit_ticket.php?id=' + ticket.id" class="btn">Edit</a>
 					<button @click="removeTicket(ticket.id)" class="btn">Delete</button>
 				</li>
 			</template>

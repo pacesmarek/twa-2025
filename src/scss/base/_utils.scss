@@ -1,0 +1,6 @@
+@use '../abstract/mixins' as mixins;
+
+.justify-content-center {
+    @include mixins.justify-content-center;
+    //justify-content: center;
+}

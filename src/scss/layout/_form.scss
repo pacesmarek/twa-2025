@@ -1,0 +1,20 @@
+@use "../abstract/variables" as *;
+
+form {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+input,
+textarea {
+    margin: 0;
+    padding: 1rem 1.25rem;
+    border: 0.1rem solid $dark-color;
+    border-radius: $rounded;
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+}
