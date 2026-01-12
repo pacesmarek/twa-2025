@@ -9,8 +9,6 @@ services:
       - .:/var/www/html
     ports:
       - "8080:80"
-    environment:
-      - APACHE_DOCUMENT_ROOT=/var/www/html/public
     networks:
       - app_network
 
@@ -21,6 +19,8 @@ services:
     volumes:
       - .:/app
       - ./node_modules:/app/node_modules
+    ports:
+      - "5173:5173"
     command: tail -f /dev/null
     networks:
       - app_network

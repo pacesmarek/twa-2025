@@ -1,41 +1,24 @@
 import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
+	plugins: [react()],
 	server: {
-		open: false, // Prevents auto-opening the browser
+		host: '0.0.0.0',
+		port: 5173,
+		strictPort: true,
 		proxy: {
-			"/": "http://localhost:8080", // Ensures Vite works with PHP
+			"/api": {
+				target: "http://php_app:80",
+				changeOrigin: true,
+			},
 		},
 		watch: {
-			usePolling: true, // Enable file system polling for changes
-		},
-	},
-	css: {
-		preprocessorOptions: {
-			scss: {
-				additionalData: `@import "src/scss/style.scss";`, // Ensure SCSS is loaded globally
-			},
+			usePolling: true,
 		},
 	},
 	build: {
-		rollupOptions: {
-			input: "src/js/main.js",
-			output: {
-				entryFileNames: "[name].js", // Keeps filenames as "main.js"
-				chunkFileNames: "[name].js", // Keeps chunk names without hash
-				assetFileNames: "[name][extname]", // Ensures no hashing in CSS
-			},
-		},
 		outDir: "dist",
-		emptyOutDir: false,
-		assetsDir: ".", // Prevents assets/ folder creation
-		watch: {
-			include: "src/**",
-			clearScreen: false,
-			chokidar: {
-				usePolling: true, // Enable file system polling for changes
-				interval: 1000, // Reduce polling interval to 1000ms
-			},
-		},
+		emptyOutDir: true,
 	},
 });

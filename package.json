@@ -1,16 +1,21 @@
 {
   "name": "ticket-system",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite\" \"npm run watch:scss\" \"npm run watch:js\"",
-    "watch:scss": "sass --watch src/scss/style.scss dist/style.css",
-    "watch:js": "vite build --watch",
-    "build": "vite build && sass src/scss/style.scss dist/style.css"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "alpinejs": "^3.14.9",
-    "concurrently": "^9.1.2",
-    "sass": "^1.85.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
     "vite": "^6.1.0"
   }
 }
