@@ -7,88 +7,136 @@ function App() {
 	const [newDescription, setNewDescription] = useState('');
 	const [errorMessage, setErrorMessage] = useState('');
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [showLogin, setShowLogin] = useState(false);
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+	const [loginError, setLoginError] = useState('');
+	const [editingTicket, setEditingTicket] = useState(null);
 
-	// Load tickets on mount
+	// Valid credentials
+	const VALID_USERNAME = 'admin';
+	const VALID_PASSWORD = 'admin';
+
+	// Load tickets and login status on mount
 	useEffect(() => {
 		loadTickets();
 		checkLoginStatus();
 	}, []);
 
-	const checkLoginStatus = async () => {
-		try {
-			const response = await fetch('/api/check-session.php');
-			const data = await response.json();
-			setIsLoggedIn(data.logged_in);
-		} catch (error) {
-			console.error('Error checking login status:', error);
+	const checkLoginStatus = () => {
+		const loggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+		setIsLoggedIn(loggedIn);
+	};
+
+	const loadTickets = () => {
+		const storedTickets = localStorage.getItem('tickets');
+		if (storedTickets) {
+			setTickets(JSON.parse(storedTickets));
+		} else {
+			// Initialize with default tickets
+			const defaultTickets = [
+				{
+					id: 1,
+					title: 'Welcome Ticket',
+					description: 'This is your first ticket. Login to manage tickets.',
+					created: new Date().toLocaleString('cs-CZ'),
+					lastModified: new Date().toLocaleString('cs-CZ')
+				}
+			];
+			setTickets(defaultTickets);
+			localStorage.setItem('tickets', JSON.stringify(defaultTickets));
 		}
 	};
 
-	const loadTickets = async () => {
-		try {
-			const response = await fetch('/api/tickets.php');
-			const data = await response.json();
-			setTickets(data);
-		} catch (error) {
-			console.error('Error loading tickets:', error);
-		}
+	const saveTickets = (updatedTickets) => {
+		setTickets(updatedTickets);
+		localStorage.setItem('tickets', JSON.stringify(updatedTickets));
 	};
 
-	const addTicket = async (e) => {
+	const addTicket = (e) => {
 		e.preventDefault();
 		
-		try {
-			const response = await fetch('/api/tickets.php', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-				body: new URLSearchParams({
-					action: 'add',
-					title: newTitle,
+		if (!isLoggedIn) {
+			setErrorMessage('Pro přidání tiketů se musíte přihlásit.');
+			return;
+		}
+
+		const newTicket = {
+			id: Date.now(),
+			title: newTitle,
+			description: newDescription,
+			created: new Date().toLocaleString('cs-CZ'),
+			lastModified: new Date().toLocaleString('cs-CZ')
+		};
+
+		const updatedTickets = [...tickets, newTicket];
+		saveTickets(updatedTickets);
+		setNewTitle('');
+		setNewDescription('');
+		setShowForm(false);
+		setErrorMessage('');
+	};
+
+	const updateTicket = (e) => {
+		e.preventDefault();
+		
+		const updatedTickets = tickets.map(ticket => 
+			ticket.id === editingTicket.id 
+				? { 
+					...ticket, 
+					title: newTitle, 
 					description: newDescription,
-				}),
-			});
+					lastModified: new Date().toLocaleString('cs-CZ')
+				  }
+				: ticket
+		);
+		
+		saveTickets(updatedTickets);
+		setNewTitle('');
+		setNewDescription('');
+		setEditingTicket(null);
+		setShowForm(false);
+	};
 
-			if (response.status === 403) {
-				setErrorMessage('Pro přidání tiketů se musíte přihlásit.');
-				return;
-			}
+	const removeTicket = (id) => {
+		const updatedTickets = tickets.filter(ticket => ticket.id !== id);
+		saveTickets(updatedTickets);
+	};
 
-			const data = await response.json();
-			setTickets(data);
-			setNewTitle('');
-			setNewDescription('');
-			setShowForm(false);
-		} catch (error) {
-			console.error('Error adding ticket:', error);
+	const startEdit = (ticket) => {
+		setEditingTicket(ticket);
+		setNewTitle(ticket.title);
+		setNewDescription(ticket.description);
+		setShowForm(true);
+	};
+
+	const cancelEdit = () => {
+		setEditingTicket(null);
+		setNewTitle('');
+		setNewDescription('');
+		setShowForm(false);
+	};
+
+	const handleLogin = (e) => {
+		e.preventDefault();
+		setLoginError('');
+
+		if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+			setIsLoggedIn(true);
+			sessionStorage.setItem('isLoggedIn', 'true');
+			setShowLogin(false);
+			setUsername('');
+			setPassword('');
+		} else {
+			setLoginError('Invalid username or password.');
 		}
 	};
 
-	const removeTicket = async (id) => {
-		try {
-			const response = await fetch('/api/tickets.php', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-				body: new URLSearchParams({
-					action: 'delete',
-					id: id,
-				}),
-			});
-
-			const data = await response.json();
-			setTickets(data);
-		} catch (error) {
-			console.error('Error removing ticket:', error);
-		}
-	};
-
-	const handleLogout = async () => {
-		try {
-			await fetch('/api/login.php?logout=true');
-			setIsLoggedIn(false);
-			window.location.href = '/api/login.php';
-		} catch (error) {
-			console.error('Error logging out:', error);
-		}
+	const handleLogout = () => {
+		setIsLoggedIn(false);
+		sessionStorage.removeItem('isLoggedIn');
+		setShowForm(false);
+		setEditingTicket(null);
 	};
 
 	return (
@@ -109,9 +157,46 @@ function App() {
 							</p>
 						</div>
 					) : (
-						<p className="mb-6 text-gray-700">
-							<a href="/api/login.php" className="text-blue-600 hover:text-blue-800 underline">Login</a> to manage tickets.
-						</p>
+						<div className="mb-6">
+							{!showLogin ? (
+								<p className="text-gray-700">
+									<button onClick={() => setShowLogin(true)} className="text-blue-600 hover:text-blue-800 underline">Login</button> to manage tickets.
+								</p>
+							) : (
+								<form onSubmit={handleLogin} className="bg-white p-6 rounded-lg shadow-md">
+									<h2 className="text-2xl font-bold mb-4">Login</h2>
+									{loginError && <p className="text-red-600 mb-4">{loginError}</p>}
+									<input
+										type="text"
+										placeholder="Username"
+										value={username}
+										onChange={(e) => setUsername(e.target.value)}
+										required
+										className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+									/>
+									<input
+										type="password"
+										placeholder="Password"
+										value={password}
+										onChange={(e) => setPassword(e.target.value)}
+										required
+										className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+									/>
+									<div className="flex gap-3">
+										<button type="submit" className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+											Login
+										</button>
+										<button
+											type="button"
+											onClick={() => setShowLogin(false)}
+											className="flex-1 bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors"
+										>
+											Cancel
+										</button>
+									</div>
+								</form>
+							)}
+						</div>
 					)}
 
 					{isLoggedIn && (
